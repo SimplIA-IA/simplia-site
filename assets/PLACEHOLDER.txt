@@ -1,2 +1,0 @@
-Remplace ce dossier par ton vrai fichier : assets/le-declic-ia.pdf
-(le nom doit être EXACTEMENT le-declic-ia.pdf pour correspondre au lien dans merci.html)
