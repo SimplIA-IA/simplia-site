@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Merci pour votre achat — SimplIA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html,body{font-family:'Inter',sans-serif; background:#0a0a0a; color:#fff; min-height:100vh;}
+  .wrap{max-width:560px; margin:0 auto; padding:120px 24px; text-align:center;}
+  h1{font-size:clamp(28px,4vw,40px); font-weight:700; letter-spacing:-0.02em; margin-bottom:20px;}
+  p{color:#999; font-size:16px; line-height:1.6; margin-bottom:32px;}
+  .btn{
+    background:#ff7a3d; color:#0a0a0a; padding:16px 32px; font-size:13px; font-weight:700;
+    letter-spacing:0.06em; text-transform:uppercase; border-radius:2px; display:inline-block;
+    box-shadow:0 0 28px rgba(255,122,61,0.35);
+  }
+  .loader{color:#666; font-size:14px;}
+  .error{color:#ff7a7a;}
+  a.back{display:block; margin-top:32px; color:#666; font-size:13px;}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div id="content">
+      <p class="loader">Vérification de votre paiement…</p>
+    </div>
+    <a href="/" class="back">← Retour au site</a>
+  </div>
+
+<script>
+(async function(){
+  const params = new URLSearchParams(window.location.search);
+  const sessionId = params.get('session_id');
+  const content = document.getElementById('content');
+
+  if(!sessionId){
+    content.innerHTML = '<p class="error">Session de paiement introuvable.</p>';
+    return;
+  }
+
+  try{
+    const res = await fetch('/api/verify-session?session_id=' + encodeURIComponent(sessionId));
+    const data = await res.json();
+
+    if(data.paid){
+      content.innerHTML = `
+        <h1>Merci pour votre achat !</h1>
+        <p>Votre paiement a été confirmé. Vous pouvez télécharger Le Déclic IA dès maintenant.</p>
+        <a href="/assets/le-declic-ia.pdf" download class="btn">Télécharger le PDF</a>
+      `;
+    } else {
+      content.innerHTML = '<p class="error">Le paiement n\'a pas encore été confirmé. Si le problème persiste, contactez-nous.</p>';
+    }
+  } catch(e){
+    content.innerHTML = '<p class="error">Une erreur est survenue lors de la vérification.</p>';
+  }
+})();
+</script>
+</body>
+</html>
