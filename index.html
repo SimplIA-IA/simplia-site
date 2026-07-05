@@ -634,8 +634,7 @@ animate();
   if(!openBtn) return;
 
   // Remplace par ta clé PUBLIABLE Stripe (commence par pk_...), jamais la clé secrète.
-  const stripe = Stripe('pk_live_51TmGHQDNOkhBiKeCo7MzGcgBLqbwNMHdssYU7S69F2H3wWRVtNg3NmFeGjplKKU7JQd991D7AxEpI8ffgbqT9fFq00fZWadmA8
-');
+  const stripe = Stripe('pk_live_51TmGHQDNOkhBiKeCo7MzGcgBLqbwNMHdssYU7S69F2H3wWRVtNg3NmFeGjplKKU7JQd991D7AxEpI8ffgbqT9fFq00fZWadmA8');
   let checkoutInstance = null;
 
   openBtn.addEventListener('click', async ()=>{
